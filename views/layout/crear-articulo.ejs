@@ -1,0 +1,224 @@
+<div class="container">
+  <br />
+  <br />
+  <div class="card">
+    <div class="card-body">
+      <div class="row" style="width: 100%">
+        <div class="col-md-8">
+          <form
+            id="formulario"
+            autocomplete="off"
+            method="POST"
+            action="/articulo/nuevo"
+          >
+            <h2
+              class="text-center"
+              style="border-bottom: 0px !important;margin: 0px; background-color: #003e71;color: #fff !important; border-radius: 8px;"
+            >
+              Crear un Nuevo Articulo
+            </h2>
+            <br />
+            <div class="form-group">
+              <label for="title">Titulo</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <span class="icon-bookmarks"></span>
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="title"
+                  id="title"
+                  placeholder="Titulo"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="author">Autor</label>
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <span class="icon-user-plus"></span>
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="author"
+                  id="author"
+                  placeholder="Autor"
+                  list="authorData"
+                  required="true"
+                />
+                <datalist id="authorData"> </datalist>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="fecha">Image</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <span class="icon-image"></span>
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="img"
+                    id="image"
+                    placeholder="Image"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="fecha">Tipo de Articulo</label>
+                <div class="input-group mb-3">
+                  <select class="form-control" name="tipo" id="tipo">
+                    <option>Articulo</option>
+                    <option>Tutorial</option>
+                  </select>
+
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <span class="icon-list"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="parrafo1">Cuerpo</label>
+              <textarea name="content" id="content"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="tags">Tags</label>
+              <select
+                name="states"
+                id="tags"
+                class="form-control"
+                multiple="multiple"
+                style="display: none;"
+              >
+                <option value="Machine Learning" selected
+                  >Machine Learning</option
+                >
+                <option value="Deep Learning" selected>Deep Learning</option>
+                <option value="Data Mining" selected>Data Mining</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Reference</label>
+              <textarea
+                class="form-control"
+                id="referenceCite"
+                name="referenceCite"
+                rows="5"
+                style="height: 100%;"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="authorCite">Autor Cite - Reference</label>
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <span class="icon-user-plus"></span>
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="authorCite"
+                  id="authorCite"
+                  placeholder="Autor"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              id="newArticle"
+              class="btn btn-primary justify-content-center"
+            >
+              Guardar Articulo
+            </button>
+          </form>
+        </div>
+
+        <div class="col-md-4 d-none d-lg-block d-xg-block">
+          <h3>Ultimo Registro</h3>
+          <br />
+          <div class="card" style="width: 18rem;">
+            <div class="card-header">
+              <h5 class="card-title">Ultimo Registro</h5>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <ul class="list-group list-group-flush">
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    Titulo:
+                    <span class="badge badge-light"
+                      >Curso de Machine Learning</span
+                    >
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    Autor:
+                    <span class="badge badge-light"
+                      >Luis Miguel Baez Aponte</span
+                    >
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    Fecha: <span class="badge badge-light">26/06/2018</span>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    Tipo de Articulo:
+                    <span class="badge badge-light">Articulo</span>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    Cuerpo:
+                    <span class="badge badge-light"
+                      >As a discipline, statistics has...</span
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <br />
+</div>
+
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<link
+  href="https://www.jqueryscript.net/css/jquerysctipttop.css"
+  rel="stylesheet"
+  type="text/css"
+/>
+<script src="/javascripts/BsMultiSelect.min.js"></script>
+<script src="/javascripts/createArticle.js"></script>

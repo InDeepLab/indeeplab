@@ -1,0 +1,313 @@
+<div class="row justify-content-center" style="width: 100%; margin-top: 20px;">
+    <div class="col-8">
+        <article>
+            <h1>Curso de Programacion </h1>
+
+            <span class="icon-quill" style="color: #6c757d;"></span>
+            <small class="text-muted">Autor: </small>
+            <small class="text-muted">Luis Miguel Baez Aponte</small>
+            <span class="icon-flickr" style="color: #6c757d;"></span>
+            <small class="text-muted">Date: </small>
+            <small class="text-muted">28 - Marzo - 2018</small>
+            <span class="icon-sphere" style="color: #6c757d;"></span>
+            <br>
+            <br>
+
+
+            <p>En Platzi sabemos que los maestros de escuelas y colegios son quienes tienen mayor impacto en el desarrollo de
+                una sociedad, y por eso queremos ayudarlos a crecer y desarrollarse profesionalmente, para que puedan enfrentarse
+                a los nuevos retos del mundo digital.En Platzi sabemos que los maestros de escuelas y colegios son quienes
+                tienen mayor impacto en el desarrollo de una sociedad, y por eso queremos ayudarlos a crecer y desarrollarse
+                profesionalmente, para que puedan enfrentarse a los nuevos retos del mundo digital.</p>
+
+            <pre class="prettyprint lang-py">
+  #!/usr/bin/python
+  #coding=utf-8
+  
+  def read_list_args(*args):
+    for count, arg in enumerate(args):
+      print('%d - %s' % (count, arg))
+  
+  print('First')
+  read_list_args('Ricardo', 'jarroba.com')
+  
+  print('Second')
+  read_list_args('Ricardo', 23, 'Ramon', [1, 2, 3], 'jarroba.com')
+  </pre>
+
+            <div class="row">
+                <div class="col-md-8 offset-md-4">
+                    <p>
+                        <a class="" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            ¿Que es In-Deep-Lab?
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica,
+                    craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                </div>
+                <br>
+            </div>
+
+            <p>
+                En
+                <a href="https://www.platzi.com" target="true">Platzi</a> sabemos que los maestros de escuelas y colegios son quienes tienen mayor impacto en el desarrollo
+                de una sociedad, y por eso queremos ayudarlos a crecer y desarrollarse profesionalmente, para que puedan
+                enfrentarse a los nuevos retos del mundo digital.
+            </p>
+
+
+            <blockquote class="blockquote" style="border-left: 5px solid #eee;padding: 10px 20px;">
+                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                <footer class="blockquote-footer text-center">Someone famous in
+                    <cite title="Source Title">Source Title</cite>
+                </footer>
+            </blockquote>
+
+
+            <h2>Platzi</h2>
+            <p>En la última sesión, Anahí Salgado, nos dará una sesión relacionada con algunas estrategias que podemos usar
+                para mejorar nuestras prácticas pedagógicas cuando enseñamos programación. Los profesores que tomen las charlas
+                y aprueben el Curso de Programación Básica recibirán un certificado de la Escuela de Maestros Platzi. Trabajemos
+                de la mano como educadores. Ayúdanos a pasar la voz, queremos dar las herramientas que permitan transfomar
+                la educación y el futuro de nuestros niños. Si quieres aprender de otras áreas de la tecnología, te recomendamos
+                consultar nuestra oferta educativa online. ¡Los esperamos! 💪</p>
+
+            <br>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <pre class="prettyprint">
+  "use strict";
+  
+  server.listen(process.env.PORT || 3000, function () {
+    console.log("Servidor corriendo en http://localhost:3000");
+  });
+  
+  // configuraciones del motor de template
+  app.use(
+    session({
+      secret: "secret session",
+      resave: false,
+      saveUninitialized: true
+    })
+  );
+  
+  app.use((request, response, next) => {
+    request.io = socket.listen(server);
+    next();
+  });
+  
+  app.use("/", index);
+  app.use("/login", login);
+  app.use("/archivo", archivo);
+  
+  //atrapar 404 y reenviar al controlador de errores
+  app.use((req, res, next) => {
+    var err = new Error("Not Found");
+    err.status = 404;
+    next(err);
+  });
+  
+  // controlador de errores
+  app.use((err, req, res, next) => {
+    // establecer locals, solo proporcionando error en el desarrollo
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
+  
+    // renderizar la página de error
+    res.status(err.status || 500);
+    res.render("404");
+  });
+  
+  module.exports = app;
+  
+  </pre>
+
+
+            <p>
+                Otro tipo de gráfico que nos puede dar mucha información es la relación entre la velocidad del vehículo y las revoluciones
+                del motor. Para ello podemos utilizar en pandas el tipo scatter y colorear los valores en función de la marcha
+                engranada. Eso lo conseguimos con la herramientas groupby de pandas.
+            </p>
+
+            <img src="/images/velocidades.png" class="mx-auto">
+
+            <p>
+                Otro tipo de gráfico que nos puede dar mucha información es la relación entre la velocidad del vehículo y las revoluciones
+                del motor. Para ello podemos utilizar en pandas el tipo scatter y colorear los valores en función de la marcha
+                engranada. Eso lo conseguimos con la herramientas groupby de pandas.
+            </p>
+
+
+
+
+
+            <pre class="prettyprint my-auto">
+  &lt;!DOCTYPE html&gt;
+  &lt;html&gt;
+    &lt;head&gt;
+      &lt;meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15"&gt;
+      &lt;script type="text/javascript" src="funcionesJS.js"&gt;&lt;script&gt;
+      &lt;title&gt;Banners rotatorio Javascript title&lt;title&gt;
+  
+    &lt;/head&gt;
+  
+    &lt;body onload="banner()"&gt;
+  
+      &lt;a href="javascript:ponerURL()" target="_blank"&gt;
+        &lt;img src="/images/img.png" name="banner"/&gt;
+      &lt;/a&gt;
+  
+    &lt;/body&gt;
+  &lt;/html&gt;
+  </pre>
+
+            <h2>Curso de Programacion </h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+
+            <pre class="prettyprint lang-py my-auto">
+  #!/usr/bin/python
+  #coding=utf-8
+  
+  class SoyUnico(object):
+      __instance = None
+      nombre = None
+  
+      def __str__(self):
+          return 'self' + ' ' + self.nombre
+  
+      def __new__(cls):
+          if SoyUnico.__instance is None:
+              SoyUnico.__instance = object.__new__(cls)
+          return SoyUnico.__instance
+  
+  ricardo = SoyUnico()
+  ricardo.nombre = "Ricardo Moya"
+  print(ricardo)
+  ramon = SoyUnico()
+  ramon.nombre = "Ramón Invarato"
+  print(ramon)
+  
+  print(ricardo)
+  print(ramon)
+  </pre>
+
+
+
+            <h2>Patrón singleton en ruby</h2>
+            <p>Singleton es un patrón de diseño en ingeniería del software, un singleton es una clase de la que solo se puede
+                obtener un objeto. Se suele utilizar en ocasiones en las que un objeto se utiliza de forma global o por lo
+                que sea existe la restricción de no poder crear más de un objeto de una determinada clase. Su implementación
+                en ruby sería la siguiente.</p>
+
+            <div class="katex" title="\int _1^4\left(x^2+2x\:+\:\sqrt{x^2+y^2}\right)\:dx"></div>
+            <br>
+            <div class="katex" title="\int _0^{2\pi }\cos ^2\left(θ\right)dθ"></div>
+            <br>
+
+            <p>Singleton es un patrón de diseño en ingeniería del software, un singleton es una clase de la que solo se puede
+                obtener un objeto. Se suele utilizar en ocasiones en las que un objeto se utiliza de forma global o por lo
+                que sea existe la restricción de no poder crear más de un objeto de una determinada clase. Su implementación
+                en ruby sería la siguiente.</p>
+
+
+
+            <pre id="test-node" class="prettyprint"></pre>
+
+        </article>
+
+        <br>
+        <div class="row align-items-center justify-content-center">
+            <mark>
+                <span class="icon-price-tag"></span> Tags:
+                <a href="#" class="text-muted">Machine Learning</a>,
+                <a href="#" class="text-muted">Deep Learning</a>,
+                <a href="#" class="text-muted">Inteligencia Artificial</a>
+            </mark>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="icon-pencil"></span> Referencias
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0 text-center">
+                    <p>Este artículo fue publicado originalmente en
+                        <a href="https://www.livescience.com/62328-plastic-eating-enzyme.html">LiveScience</a> y fue traducido por InDeepLab</p>
+                    <footer class="blockquote-footer">por
+                        <span class="icon-user-tie"></span>
+                        <cite title="Source Title">Mindy Weisberge</cite>
+                    </footer>
+                </blockquote>
+            </div>
+
+            <ul class="list-group list-group-flush">
+
+                <div class="card-header">
+                    <span class="icon-file-text"></span> Licencia
+                </div>
+
+                <div class="card-body">
+                    <li class="list-group-item">
+                        <img src="/images/cc.png" class="rounded mx-auto d-block" alt="Creative Commons" style="width: 20%; height: 20%;">
+                    </li>
+
+                    <li class="list-group-item">
+                        <a href="#">Curso de Programacion</a> por InDeepLab esta bajo una
+                        <span class="icon-file-text"></span> licencia Creative Commons Reconocimiento-NoComercial-CompartirIgual 3.0 Unported License.
+                        Creado a partir de la obra en
+                        <a href="www.indeeplab.com">www.indeeplab.com</a>
+                    </li>
+                </div>
+
+            </ul>
+
+        </div>
+        <br>
+        <br>
+
+
+
+    </div>
+</div>

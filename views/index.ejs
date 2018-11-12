@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+
+    <script src="/bootstrap-v4.1.1/jquery-3.3.1.slim.min.js"></script>
+
+    <link rel="stylesheet" href="/bootstrap-v4.1.1/bootstrap.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+    <script src="/bootstrap-v4.1.1/popper.min.js"></script>
+    <script src="/bootstrap-v4.1.1/bootstrap.min.js"></script>
+
+    <link href="/stylesheets/gsdk.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/demo.css" rel="stylesheet" /> -->
+
+    <link rel="stylesheet" type="text/css" href="/font/icomoon/style.css" />
+
+    <script type="text/javascript" src="/javascripts/index.js"></script>
+
+    <!-- KATEX -->
+    <link rel="stylesheet" href="/KaTeX-v0.9.0/katex.min.css" />
+
+    <script src="/KaTeX-v0.9.0/katex.min.js"></script>
+
+    <!-- Compiled and minified JavaScript -->
+
+    <link rel="stylesheet" href="/stylesheets/sunburst.css" />
+
+    <style type="text/css"></style>
+
+    <title><%= title %></title>
+  </head>
+
+  <body>
+    <div><%- include("layout/navigator") -%></div>
+
+    <div class="main">
+      <% for(var row of pageRoutes) {%> <%- include(row) -%> <% } %>
+    </div>
+
+    <div><%- include("layout/footer") -%></div>
+
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+    <!--
+      <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=py&lang=sql&lang=java&lang=rb&lang=css&amp;skin=sunburst"></script>
+    -->
+
+    <% for(var row of scriptJS) {%>
+    <script src="<%- row -%>"></script>
+    <% } %>
+  </body>
+</html>

@@ -1,0 +1,266 @@
+body {
+  overflow-x: hidden;
+  text-decoration: none;
+}
+
+li.nav-blog:hover {
+  background-color: #0f4e98;
+}
+
+a.icon-tag {
+  color: #fff;
+  padding: 4px;
+  background-color: #003e71;
+  text-decoration: none;
+}
+
+a.icon-tag:hover {
+  background-color: #000000;
+  text-decoration: none;
+}
+
+.katex {
+  font-size: 1.4em;
+}
+
+/*FOOTER*/
+.footer {
+  background-color: #003e71;
+  color: white;
+  padding: 3em 0;
+}
+
+/*END FOOTER*/
+
+/*BOOTSTRAP*/
+.navbar-toggler {
+  background-color: #003e71 !important;
+}
+.mr-auto {
+  margin-left: 15px !important;
+}
+.col-lg-4 {
+  margin-top: 20px !important;
+}
+/*END BOOTSTRAP*/
+
+/*INPUT DE BUSQUEDA*/
+.navbar-collapse {
+  position: relative;
+  padding-top: 30px !important;
+  max-height: 270px;
+}
+.navbar-collapse form[role="search"] {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  z-index: 0;
+}
+.navbar-collapse form[role="search"] button,
+.navbar-collapse form[role="search"] input {
+  padding: 8px 12px;
+  border-radius: 0px;
+  border-width: 0px;
+  color: rgb(119, 119, 119);
+  background-color: rgb(248, 248, 248);
+  border-color: rgb(231, 231, 231);
+  box-shadow: none;
+  outline: none;
+}
+.navbar-collapse form[role="search"] input {
+  padding: 16px 12px;
+  font-size: 14pt;
+  font-style: italic;
+  color: rgb(160, 160, 160);
+  box-shadow: none;
+}
+.navbar-collapse form[role="search"] button[type="reset"] {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .navbar-collapse {
+    padding-top: 0px !important;
+    padding-right: 38px !important;
+  }
+  .navbar-collapse form[role="search"] {
+    width: 38px;
+  }
+
+  .navbar-collapse form[role="search"] input {
+    padding: 2px 20px;
+    font-size: 18pt;
+    opacity: 0;
+    display: none;
+  }
+  .navbar-collapse form[role="search"].active {
+    width: 100%;
+  }
+  .navbar-collapse form[role="search"].active button,
+  .navbar-collapse form[role="search"].active input {
+    display: table-cell;
+    opacity: 1;
+  }
+  .navbar-collapse form[role="search"].active input {
+    width: 100%;
+  }
+}
+/*END INPUT DE BUSQUEDA*/
+
+/*FOOTER*/
+.footer-link {
+  color: #fff !important;
+}
+.btn-primary-search {
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+/*END FOOTER*/
+
+/*CONTENIDO PRINCIPAL*/
+li.nav-blog:hover {
+  background-color: #024780;
+}
+
+a.icon-tag {
+  color: #fff;
+  padding: 5px;
+  background-color: #003e71;
+}
+a.icon-tag:hover {
+  background-color: #000000;
+}
+
+.katex {
+  font-size: 1.4em;
+}
+
+.index-content a:hover {
+  color: black;
+  text-decoration: none;
+}
+.index-content {
+  margin-bottom: 20px;
+  padding: 50px 0px;
+}
+.index-content .row {
+  margin-top: 20px;
+}
+.index-content a {
+  color: black;
+}
+.index-content .card {
+  background-color: #ffffff;
+  padding: 0;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+.index-content .card:hover {
+  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
+    0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
+  color: black;
+}
+.index-content .card img {
+  width: 100%;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.index-content .card h4 {
+  margin: 20px;
+}
+.index-content .card p {
+  margin: 20px;
+  opacity: 0.65;
+}
+.index-content .blue-button {
+  width: 100px;
+  -webkit-transition: background-color 1s, color 1s; /* For Safari 3.1 to 6.0 */
+  transition: background-color 1s, color 1s;
+  min-height: 20px;
+  background-color: #002e5b;
+  color: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: lighter;
+  margin: 0px 20px 15px 20px;
+  padding: 5px 0px;
+  display: inline-block;
+}
+.index-content .blue-button:hover {
+  background-color: #dadada;
+  color: #002e5b;
+}
+@media (max-width: 768px) {
+  .index-content .col-lg-4 {
+    margin-top: 20px;
+  }
+}
+/*END CONTENIDO PRINCIPAL*/
+
+/*CONTENIDO CREAR ARTICULO*/
+/*
+https://stackoverflow.com/questions/32669847/change-background-color-of-the-selected-line-in-a-textarea
+*/
+
+.focusColor:focus {
+  background-color: #000000;
+}
+
+.focusColor {
+  margin-left: 10px;
+  margin-bottom: 0px !important;
+}
+
+.md-h1,
+.md-h2,
+.md-h3,
+.md-h4,
+.md-h5,
+.md-h6 {
+  color: blue;
+}
+
+.md-h1 {
+  font-size: 40px;
+}
+
+.md-h2 {
+  font-size: 35px;
+}
+
+.md-h3 {
+  font-size: 30px;
+}
+
+.md-h4 {
+  font-size: 25px;
+}
+
+.md-h5 {
+  font-size: 22.5px;
+}
+
+.md-h6 {
+  font-size: 20px;
+}
+
+.md-cite {
+  color: #325d72;
+  background-color: #e9ecef;
+  font-size: 25px;
+}
+.md-code {
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.dashboardcode-bsmultiselect {
+  width: 100%;
+}

@@ -1,0 +1,23 @@
+{
+  "name": "indeeplab",
+  "version": "0.0.0",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "~2.5.7",
+    "express": "^4.16.4",
+    "markdown-it": "^8.4.2",
+    "markdown-it-katex": "^2.0.3",
+    "mongoose": "^5.1.5",
+    "morgan": "~1.9.0",
+    "serve-favicon": "~2.4.5",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.1.1"
+  }
+}

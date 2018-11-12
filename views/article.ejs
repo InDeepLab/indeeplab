@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+
+    <script src="/bootstrap-v4.1.1/jquery-3.3.1.slim.min.js"></script>
+
+    <link rel="stylesheet" href="/bootstrap-v4.1.1/bootstrap.min.css" />
+
+    <script src="/bootstrap-v4.1.1/popper.min.js"></script>
+    <script src="/bootstrap-v4.1.1/bootstrap.min.js"></script>
+
+    <link href="/stylesheets/gsdk.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/demo.css" rel="stylesheet" /> -->
+
+    <link rel="stylesheet" type="text/css" href="/font/icomoon/style.css" />
+
+    <script type="text/javascript" src="/javascripts/index.js"></script>
+
+    <!-- KATEX -->
+    <link rel="stylesheet" href="/KaTeX-v0.9.0/katex.min.css" />
+
+    <script src="/KaTeX-v0.9.0/katex.min.js"></script>
+
+    <!-- Compiled and minified JavaScript -->
+
+    <link rel="stylesheet" href="/stylesheets/sunburst.css" />
+
+    <title><%= title %></title>
+  </head>
+
+  <body onload="/*latex()*/">
+    <div><%- include("layout/navigator") -%></div>
+
+    <div class="main">
+      <div class="row justify-content-center">
+        <div class="col-8">
+          <article>
+            <h1 id="title"></h1>
+            <span class="icon-quill" style="color: #6c757d;"></span>
+            <small class="text-muted">Autor: </small>
+            <small class="text-muted" id="author"></small>
+            <span class="icon-flickr" style="color: #6c757d;"></span>
+            <small class="text-muted">Fecha: </small>
+            <small class="text-muted" id="date">00 - Mes - 0000</small>
+            <span class="icon-sphere" style="color: #6c757d;"></span> <br />
+            <br />
+
+            <div id="content"></div>
+          </article>
+
+          <div class="row align-items-center justify-content-center">
+            <mark id="tags-name"> </mark>
+          </div>
+          <br />
+          <br />
+          <div class="card">
+            <div class="card-header" id="card-reference" style="display: none;">
+              <span class="icon-pencil"></span> Referencias
+            </div>
+
+            <div class="card-body" id="card-body" style="display: none;">
+              <blockquote
+                class="blockquote mb-0 text-center"
+                id="text-reference"
+              ></blockquote>
+            </div>
+
+            <ul class="list-group list-group-flush">
+              <div class="card-header">
+                <span class="icon-file-text"></span> Licencia
+              </div>
+
+              <div class="card-body">
+                <li class="list-group-item">
+                  <img
+                    src="/images/cc.png"
+                    class="rounded mx-auto d-block"
+                    alt="Creative Commons"
+                    style="width: 20%; height: 20%;"
+                  />
+                </li>
+
+                <li class="list-group-item">
+                  <a href="#" id="name-article-cite">Nombre Curso</a> por
+                  InDeepLab esta bajo una
+                  <span class="icon-file-text"></span> licencia Creative Commons
+                  Reconocimiento-NoComercial-CompartirIgual 3.0 Unported
+                  License. Creado a partir de la obra en
+                  <a href="www.indeeplab.com">www.indeeplab.com</a>
+                </li>
+              </div>
+            </ul>
+          </div>
+          <br />
+          <br />
+        </div>
+      </div>
+    </div>
+
+    <div><%- include("layout/footer") -%></div>
+
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sunburst"></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.js"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css"
+    />
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="/javascripts/renderArticle.js"></script>
+  </body>
+</html>
