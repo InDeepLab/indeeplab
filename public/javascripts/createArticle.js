@@ -11,12 +11,10 @@ $(function() {
     console.log(socket.connected); // true
   });
 
-  socket.on("authors", author => {
-    var html = "";
-    for (var x of author) {
-      html += `<option value="${x._id}">${x.name}</option>`;
-    }
-    $("#authorData").html(html);
+  socket.on("author", author => {
+    $("#author").val(author[0]._id);
+    $("#author").prop("disabled", true);
+    console.log(author);
   });
 
   socket.on("tags", tags => {

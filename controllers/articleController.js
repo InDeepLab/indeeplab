@@ -7,21 +7,29 @@ const mongoose = require("mongoose");
 
 //GET /articulo/nuevo
 function crearArticulo(request, response) {
-  var queryAuthor = {
-    $project: {
-      password: false,
-      articles: false
+  var queryAuthor = [
+    {
+      $match: {
+        _id: mongoose.Types.ObjectId(request.session.author._id)
+      }
+    },
+    {
+      $project: {
+        password: false,
+        articles: false
+      }
     }
-  };
+  ];
   var queryTags = {
     $project: {
       __v: false,
       articles: false
     }
   };
+
   request.io.on("connection", socket => {
-    Author.aggregate([queryAuthor], (err, authors) => {
-      socket.emit("authors", authors);
+    Author.aggregate(queryAuthor, (err, author) => {
+      socket.emit("author", author);
     });
     Tags.aggregate([queryTags], (err, tags) => {
       socket.emit("tags", tags);
@@ -31,7 +39,8 @@ function crearArticulo(request, response) {
   response.render("index", {
     pageRoutes: ["layout/crear-articulo"],
     title: "Crear un Nuevo Articulo",
-    scriptJS: []
+    scriptJS: [],
+    session: request.session
   });
 }
 
@@ -77,7 +86,6 @@ function guardarArticulo(request, response) {
     name = body.states;
   }
 
-  console.log(name);
   var re = new RegExp(name, "g");
   var query = Tags.find({ name: re });
 
@@ -91,7 +99,6 @@ function guardarArticulo(request, response) {
       } else {
         tags.push(new Tags(doc[0]));
       }
-      console.log(tags);
 
       data.tags = tags;
 
@@ -124,7 +131,8 @@ function render(request, response) {
   response.render("article", {
     title: "Articulo",
     article: article,
-    scriptJS: []
+    scriptJS: [],
+    session: request.session
   });
 }
 
@@ -199,22 +207,92 @@ function article(request, response) {
 }
 
 function search(request, response) {
-  var query = request.query.query;
-  var regExp = new RegExp(query);
-  console.log(request.query);
+  var regExp = new RegExp(request.query.search, "g");
+  console.log(regExp);
 
   request.io.on("connection", socket => {
-    Article.find({ title: regExp }, (err, articles) => {
-      console.log("Match");
+    Article.find({ content: regExp }, (err, articles) => {
       socket.emit("searchText", request.query);
       socket.emit("articles", articles);
+      console.log(articles.length);
     });
   });
 
   response.render("index", {
     title: "Articulo",
     scriptJS: ["/javascripts/search.js", "/socket.io/socket.io.js"],
-    pageRoutes: ["layout/search"]
+    pageRoutes: ["layout/search"],
+    session: request.session
+  });
+}
+
+function getArticleById(request, response) {
+  var id = request.params.id;
+  var objId = id.split("-").pop();
+
+  render(request, response);
+
+  request.io.on("connection", socket => {
+    var query = [
+      {
+        $addFields: {
+          tags: {
+            $ifNull: ["$tags", []]
+          }
+        }
+      },
+      {
+        $match: {
+          _id: mongoose.Types.ObjectId(objId)
+        }
+      },
+      {
+        $lookup: {
+          //Join Tags
+          from: "tags",
+          localField: "tags",
+          foreignField: "_id",
+          as: "tags"
+        }
+      },
+      {
+        $lookup: {
+          //Join Author
+          from: "authors",
+          localField: "author",
+          foreignField: "_id",
+          as: "author"
+        }
+      },
+      {
+        $project: {
+          //SELECT: Proyectar columnas
+          "tags.id": false,
+          "tags._id": false,
+          "tags.__v": false,
+          "author.articles": false
+        }
+      }
+    ];
+
+    Article.aggregate(query).exec((err, articles) => {
+      if (err) {
+        return console.error("Error findById(): ", err);
+      }
+      socket.emit("article", {
+        title: articles[0].title,
+        author: articles[0].author[0],
+        date: articles[0].date,
+        content: request.md.render(articles[0].content),
+        tags: articles[0].tags,
+        reference: {
+          content: articles[0].reference
+            ? request.md.render(articles[0].reference.content)
+            : undefined,
+          cite: articles[0].reference ? articles[0].reference.cite : undefined
+        }
+      });
+    });
   });
 }
 
@@ -222,5 +300,6 @@ module.exports = {
   crearArticulo,
   guardarArticulo,
   article,
-  search
+  search,
+  getArticleById
 };
