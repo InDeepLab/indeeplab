@@ -1,11 +1,12 @@
 "use strict";
 
-var express = require("express");
-var path = require("path");
-var favicon = require("serve-favicon");
-var logger = require("morgan");
-var cookieParser = require("cookie-parser");
-var bodyParser = require("body-parser");
+const express = require("express");
+const session = require("express-session");
+const path = require("path");
+const favicon = require("serve-favicon");
+const logger = require("morgan");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 const http = require("http");
 const socket = require("socket.io");
 const mongoose = require("mongoose");
@@ -18,6 +19,9 @@ md.use(mk);
 var index = require("./routes/index");
 var article = require("./routes/article");
 var matter = require("./routes/matter");
+var author = require("./routes/author");
+var info = require("./routes/information");
+var tag = require("./routes/tag");
 
 var app = express();
 
@@ -52,6 +56,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// session: me permite guardar la informacion de los usuarios
+// que inician sesión
+app.use(
+  session({
+    secret: "5be7ac54869163c1ebe6b88c",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
 app.use((request, response, next) => {
   request.io = io;
   next();
@@ -66,6 +80,9 @@ app.use((request, response, next) => {
 app.use("/", index);
 app.use("/articulo", article);
 app.use("/matter", matter);
+app.use("/author", author);
+app.use("/info", info);
+app.use("/tag", tag);
 
 // catch 404 and forward to error handler
 app.use((request, response, next) => {
