@@ -5,17 +5,30 @@ $(function() {
     console.log(socket.connected); // true
   });
   socket.on("searchText", title => {
-    console.log(title);
-    $("#searchText").html("Busqueda : " + title.search);
+    if (title === false) {
+      if (!title) {
+        $("#card-searchText").css({
+          display: "none"
+        });
+        return;
+      }
+    } else {
+      $("#card-searchText").css({
+        display: "block"
+      });
+      $("#searchText").html("Busqueda : " + title.search);
+    }
   });
 
   socket.on("articles", articles => {
-    var template,
-      html = "";
+    var template = `<div class="card-columns">`,
+      html = "",
+      url;
     for (var article of articles) {
-      template = `
-          <div class="card-columns">
-          <a href="#">
+      url = article.title.slice(0, 46).replace(/ /g, "-");
+      url += "-" + article._id;
+      template += `
+          <a href="/articulo/${url}">
               <div class="card">
                 <img src="${article.img}">
                 <h4>${article.title}</h4>
@@ -26,14 +39,16 @@ $(function() {
                   0,
                   article.content.length > 165 ? 165 : article.content.length
                 )}...</p>
-                <a href="#" class="blue-button"><span class="icon-plus"></span> Leer Mas</a>
+                <a href="/articulo/${url}" class="blue-button"><span class="icon-plus"></span> Leer Mas</a>
               </div>
           </a>
 
-        </div>
+        
         `;
       html += template;
+      template = "";
     }
+    html += "</div>";
     $("#categories").html(html);
   });
 });
