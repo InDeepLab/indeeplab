@@ -7,6 +7,9 @@ const mongoose = require("mongoose");
 
 //GET /articulo/nuevo
 function crearArticulo(request, response) {
+  /**
+   * Query para traer el author que inicio seccion
+   */
   var queryAuthor = [
     {
       $match: {
@@ -20,6 +23,9 @@ function crearArticulo(request, response) {
       }
     }
   ];
+  /**
+   * Query que trae todos los tags de la DB
+   */
   var queryTags = {
     $project: {
       __v: false,
@@ -28,14 +34,29 @@ function crearArticulo(request, response) {
   };
 
   request.io.on("connection", socket => {
+    /**
+     * Hacer consulta para traer el author que inicio session
+     * y enviar los datos al cliente por medio de socket.io
+     * para poder renderizarlos
+     */
     Author.aggregate(queryAuthor, (err, author) => {
       socket.emit("author", author);
     });
+
+    /**
+     * Hacer consulta para traer todos los tags registrados en la DB
+     * y enviar los datos al cliente por medio de socket.io
+     * para poder renderizarlos
+     */
     Tags.aggregate([queryTags], (err, tags) => {
       socket.emit("tags", tags);
     });
   });
 
+  /**
+   * Renderizar el template index.html y con el componente
+   * de crear-articulo.html
+   */
   response.render("index", {
     pageRoutes: ["layout/crear-articulo"],
     title: "Crear un Nuevo Articulo",
@@ -44,22 +65,12 @@ function crearArticulo(request, response) {
   });
 }
 
-/*
-body
-{ 
-  title: 'Title',
-  author: '5be25b36bc0e152984260b3f',
-  img: 'lsadald',
-  tipo: 'Articulo',
-  content: 'daskdskada',
-  states: [ 'Machine Learning', 'Deep Learning', 'Data Mining' ],
-  referenceCite: 'lfdasfaf,lasfokadsfk',
-  authorCite: 'kldskfla' 
-}
-*/
 //POST /articulo/nuevo
 function guardarArticulo(request, response) {
   var body = request.body;
+  /**
+   * Datos del registro del nuevo articulo
+   */
   var data = {
     title: body.title,
     author: mongoose.Types.ObjectId(body.author),
@@ -68,6 +79,11 @@ function guardarArticulo(request, response) {
     img: body.img
   };
 
+  /**
+   * En caso de que el author hubierá referenciado se ejecuta este bloque
+   * de codigo, que lo que hace es agregar la referencia la json data que
+   * contiene el registro del nuevo articulo
+   */
   if (body.referenceCite && body.authorCite) {
     data.reference = {
       content: body.referenceCite,
@@ -76,6 +92,10 @@ function guardarArticulo(request, response) {
     };
   }
 
+  /**
+   * Crear el string de la consulta para traer el _id de cada uno de los tags
+   * que se seleccionaron para posteriormente enlazarlos con el articulo
+   */
   var name = "";
   if (body.states instanceof Array) {
     for (var i = 0; i < body.states.length; i++) {
@@ -86,12 +106,19 @@ function guardarArticulo(request, response) {
     name = body.states;
   }
 
+  /**
+   * Expresion regular de la consulta que permite traer el _id de los tags
+   */
   var re = new RegExp(name, "g");
   var query = Tags.find({ name: re });
 
+  /**
+   * Consulta que trae el _id de los tags
+   */
   query
     .then(function(doc) {
       let tags = [];
+      //Crear un Array con los modelos (Tags)
       if (body.states instanceof Array) {
         for (var xx of doc) {
           tags.push(new Tags(xx));
@@ -101,9 +128,15 @@ function guardarArticulo(request, response) {
       }
 
       data.tags = tags;
-
+      /**
+       * Se creó el documento donde se enlazan el articulos con los Tags
+       */
       let article = new Article(data);
 
+      /**
+       * Consulta que permite registrar en la base de datos
+       * el articulo nuevo
+       */
       article.save((err, obj) => {
         if (err) {
           response.status(500).send({
@@ -112,6 +145,10 @@ function guardarArticulo(request, response) {
         }
         console.log("El articulo se registro Correctamente!!! ", obj);
 
+        /**
+         * Consulta que permite actualizar el _id de los articulos
+         * en la colección de Tags
+         */
         for (var tag of tags) {
           tag.articles.push(mongoose.Types.ObjectId(obj._id));
           tag.save(err => {
@@ -127,97 +164,43 @@ function guardarArticulo(request, response) {
     });
 }
 
-function render(request, response) {
-  response.render("article", {
-    title: "Articulo",
-    article: article,
-    scriptJS: [],
-    session: request.session
-  });
-}
-
-//GET: /articulo
-function article(request, response) {
-  render(request, response);
-  let idCollections = "5be8b9bc983d620be0f28348";
-
-  request.io.on("connection", socket => {
-    var query = [
-      {
-        $addFields: {
-          tags: {
-            $ifNull: ["$tags", []]
-          }
-        }
-      },
-      {
-        $match: {
-          //Conditions
-          _id: mongoose.Types.ObjectId(idCollections)
-        }
-      },
-      {
-        $lookup: {
-          //Join Tags
-          from: "tags",
-          localField: "tags",
-          foreignField: "_id",
-          as: "tags"
-        }
-      },
-      {
-        $lookup: {
-          //Join Author
-          from: "authors",
-          localField: "author",
-          foreignField: "_id",
-          as: "author"
-        }
-      },
-      {
-        $project: {
-          //SELECT: Proyectar columnas
-          "tags.id": false,
-          "tags._id": false,
-          "tags.__v": false,
-          "author.articles": false
-        }
-      }
-    ];
-
-    Article.aggregate(query).exec((err, articles) => {
-      if (err) {
-        return console.error("Error findById(): ", err);
-      }
-      socket.emit("article", {
-        title: articles[0].title,
-        author: articles[0].author[0],
-        date: articles[0].date,
-        content: request.md.render(articles[0].content),
-        tags: articles[0].tags,
-        reference: {
-          content: articles[0].reference
-            ? request.md.render(articles[0].reference.content)
-            : undefined,
-          cite: articles[0].reference ? articles[0].reference.cite : undefined
-        }
-      });
-    });
-  });
-}
-
+//GET: /articulo/search
 function search(request, response) {
+  /**
+   * Expresion regular con la busqueda realizada por el cliente
+   */
   var regExp = new RegExp(request.query.search, "g");
-  console.log(regExp);
 
+  /**
+   * Consulta que busca todos los articulos que contengas palabras
+   * previamente ingresada por el cliente
+   */
+  var query = [
+    {
+      $match: {
+        $or: [{ content: regExp }, { title: regExp }]
+      }
+    },
+    {
+      $limit: 20
+    }
+  ];
+
+  /**
+   * Los resultados de la consultas se envian al client
+   * mediante socket.io para posteriormente ser renderizadas
+   */
   request.io.on("connection", socket => {
-    Article.find({ content: regExp }, (err, articles) => {
+    Article.aggregate(query, (err, articles) => {
       socket.emit("searchText", request.query);
       socket.emit("articles", articles);
-      console.log(articles.length);
     });
   });
 
+  /**
+   * Renderizar el template index.html y con el componente
+   * de search.html
+   */
   response.render("index", {
     title: "Articulo",
     scriptJS: ["/javascripts/search.js", "/socket.io/socket.io.js"],
@@ -226,13 +209,21 @@ function search(request, response) {
   });
 }
 
+//GET: /articulo/:id
 function getArticleById(request, response) {
+  /**
+   * request.params trae los parametros que se ingresaron en la peticion GET
+   * /articulo/:id y ahí podemos obtener el _id para poder hacer la consulta
+   */
   var id = request.params.id;
   var objId = id.split("-").pop();
 
   render(request, response);
 
-  request.io.on("connection", socket => {
+  request.io.once("connection", socket => {
+    /**
+     * En esta query traemos el articulo cuyo _id se ingreso en la URL
+     */
     var query = [
       {
         $addFields: {
@@ -279,6 +270,11 @@ function getArticleById(request, response) {
       if (err) {
         return console.error("Error findById(): ", err);
       }
+
+      /**
+       * Se envian los resultados mediante socket.io para posteriormente
+       * renderizarlos en el lado del cliente
+       */
       socket.emit("article", {
         title: articles[0].title,
         author: articles[0].author[0],
@@ -296,10 +292,20 @@ function getArticleById(request, response) {
   });
 }
 
+/**
+ * Función que permite renderizar un articulo
+ */
+function render(request, response) {
+  response.render("article", {
+    title: "Articulo",
+    scriptJS: [],
+    session: request.session
+  });
+}
+
 module.exports = {
   crearArticulo,
   guardarArticulo,
-  article,
   search,
   getArticleById
 };

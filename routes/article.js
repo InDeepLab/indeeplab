@@ -11,12 +11,26 @@ var { isAuth } = require("../middlewares/auth");
  */
 router.get("/nuevo", isAuth, articuloController.crearArticulo);
 
+/**
+ * @route: /articulo/nuevo
+ * @method: POST
+ * @description: REGISTRAR EL ARTICULO EN LA BASE DE DATOS
+ */
 router.post("/nuevo", isAuth, articuloController.guardarArticulo);
 
-router.get("/", articuloController.article);
-
+/**
+ * @route: /articulo/search
+ * @method: GET
+ * @description: CON LOS DATOS QUE EL USUARIO INGRESO EN LA BUSQUEDA
+ * OBTENER TODOS LOS ARTICULOS QUE CUMPLAN CON ESOS CRITERIOS
+ */
 router.get("/search", articuloController.search);
 
+/**
+ * @route: /articulo/:id
+ * @method: GET
+ * @description: RENDERIZAR UN ARTICULO POR EL ID
+ */
 router.get("/:id", articuloController.getArticleById);
 
 module.exports = router;
