@@ -9,7 +9,7 @@
             id="formulario"
             autocomplete="off"
             method="POST"
-            action="/articulo/nuevo"
+            action="/matter/create"
           >
             <h2
               class="text-center"
@@ -33,6 +33,7 @@
                   name="name"
                   id="name"
                   placeholder="Nombre"
+                  required="true"
                 />
               </div>
             </div>
@@ -52,18 +53,20 @@
                   name="img"
                   id="img"
                   placeholder="Nombre"
+                  required="true"
                 />
               </div>
             </div>
             <br />
             <div class="form-group">
-              <label for="description">Reference</label>
+              <label for="description">Description</label>
               <textarea
                 class="form-control"
                 id="description"
                 name="description"
                 rows="5"
                 style="height: 100%;"
+                required="true"
               ></textarea>
             </div>
 

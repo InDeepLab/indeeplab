@@ -7,9 +7,7 @@ $(function() {
     console.log(socket.connected); // true
   });
 
-  socket.on("matters", result => {
-    console.log(result);
-
+  socket.on("matter", result => {
     var elementTag = $("#tags");
     var elementMatter = $("#matter");
     var elementDescription = $("#matter-description");
@@ -17,6 +15,9 @@ $(function() {
     var i = 1;
     for (var tag of result.tags) {
       var label = i % 2 == 0 ? "text-primary" : "text-success";
+      var description = tag.description;
+      description =
+        description.length > 45 ? description.slice(0, 45) : description.length;
       var template = `
         <div class="col-md-6">
               <div class="card flex-md-row mb-4 box-shadow h-md-250">
@@ -31,7 +32,7 @@ $(function() {
                   </h3>
                   <div class="mb-1 text-muted">12 Articles</div>
                   <p class="card-text mb-auto">
-                    ${tag.description}
+                    ${description}...
                   </p>
                   <a href="#">Ir a</a>
                 </div>
