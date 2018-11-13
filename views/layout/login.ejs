@@ -1,0 +1,74 @@
+<div class="container">
+  <br />
+  <br />
+  <div class="card">
+    <div class="card-body">
+      <div class="row justify-content-center" style="width: 100%">
+        <div class="col-md-8">
+          <form
+            id="formulario"
+            autocomplete="off"
+            method="POST"
+            action="/author/login"
+          >
+            <h2
+              class="text-center"
+              style="border-bottom: 0px !important;margin: 0px; background-color: #003e71;color: #fff !important; border-radius: 8px;"
+            >
+              Crear una nueva Materia
+            </h2>
+            <br /><br />
+            <div class="form-group">
+              <label for="user">Nombre de Usuario</label>
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <span class="icon-user-plus"></span>
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="user"
+                  id="user"
+                  placeholder="Nombre"
+                  required="true"
+                />
+              </div>
+            </div>
+            <br />
+            <div class="form-group">
+              <label for="password">Contraseña</label>
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <span class="icon-key"></span>
+                  </span>
+                </div>
+                <input
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  id="password"
+                  placeholder="Nombre"
+                  required="true"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              id="newArticle"
+              class="btn btn-primary justify-content-center"
+            >
+              Guardar Materia
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br /><br /><br />
