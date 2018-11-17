@@ -4,18 +4,34 @@ var Articles = require("../models/article");
 
 //GET: /
 function indexHome(request, response) {
+  var queryArticle = [
+    {
+      $lookup: {
+        from: "authors",
+        localField: "author",
+        foreignField: "_id",
+        as: "author"
+      }
+    },
+    {
+      $sort: {
+        date: -1
+      }
+    },
+    {
+      $limit: 2
+    }
+  ];
   /**
    * Hacer una consulta de los ultimos 20 registros de articulos
    * y enviarlos mediante socket.io para posteriormente renderizarlos
    */
-  request.io.on("connection", socket => {
-    Articles.find({})
-      .sort({ date: -1 })
-      .exec((err, docs) => {
-        if (err) return console.error("Error: ", err);
-        socket.emit("searchText", false);
-        socket.emit("articles", docs);
-      });
+  request.io.once("connection", socket => {
+    Articles.aggregate(queryArticle, (err, docs) => {
+      if (err) return console.error("Error: ", err);
+      console.log(docs.length);
+      socket.emit("articles", docs);
+    });
   });
 
   /**
@@ -23,9 +39,9 @@ function indexHome(request, response) {
    * de search.html
    */
   response.render("index", {
-    pageRoutes: ["layout/search"],
+    pageRoutes: ["layout/home"],
     title: "InDeepLab | Blog de divulgación Cientifica",
-    scriptJS: ["/socket.io/socket.io.js", "/javascripts/search.js"],
+    scriptJS: ["/socket.io/socket.io.js", "/javascripts/home.js"],
     session: request.session
   });
 }
