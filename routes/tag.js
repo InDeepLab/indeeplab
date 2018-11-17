@@ -18,4 +18,11 @@ router.get("/create", isAuth, tagController.createTag);
  */
 router.post("/create", isAuth, tagController.registerTag);
 
+/**
+ * @route: /tag/search
+ * @method: GET
+ * @description: RENDERIZAR TODOS LOS ARTICULOS DE UN TAG DETERMINADO
+ */
+router.get("/search", tagController.searchTag);
+
 module.exports = router;

@@ -80,7 +80,12 @@ function registerTag(request, response) {
   });
 }
 
+function searchTag(request, response) {
+  //TODO: RENDERIZAR TODOS LOS ARTICULOS DE UN TAG SELECCIONADO
+}
+
 module.exports = {
   createTag,
-  registerTag
+  registerTag,
+  searchTag
 };
