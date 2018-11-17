@@ -11,17 +11,25 @@ $(function() {
     console.log(socket.connected); // true
   });
 
-  socket.on("author", author => {
+  socket.once("author", author => {
     $("#author").val(author[0]._id);
     $("#author").prop("disabled", true);
     console.log(author);
   });
 
-  socket.on("tags", tags => {
+  $("#newArticle").mouseenter(() => {
+    $("#author").prop("disabled", false);
+  });
+
+  $("#newArticle").mouseleave(() => {
+    $("#author").prop("disabled", true);
+  });
+
+  socket.once("tags", tags => {
     var html = "";
     for (var tag of tags) {
       var template = `
-      <option value="${tag._id}">${tag.name}</option>
+      <option value="${tag.name}">${tag.name}</option>
       `;
       html += template;
     }
