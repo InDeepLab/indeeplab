@@ -26,19 +26,12 @@ function getMatter(request, response) {
       }
     },
     {
-      $lookup: {
-        from: "tags",
-        localField: "tags",
-        foreignField: "_id",
-        as: "tags"
-      }
-    },
-    {
       $project: {
         "tags._id": false,
         "tags.id": false,
         "tags.__v": false,
-        __v: false
+        __v: false,
+        img: false
       }
     },
     {
@@ -53,7 +46,43 @@ function getMatter(request, response) {
      */
     Matters.aggregate(query, (err, result) => {
       if (err) return console.error("Error Matters query");
-      socket.emit("matter", result[0]);
+      if (result.length > 0) {
+        console.log(result[0].tags.length);
+        if (result[0].tags.length == 0) {
+          socket.emit("matter", result[0], true);
+        } else {
+          var queryMatters = [
+            {
+              $match: {
+                name: request.query.search
+              }
+            },
+            {
+              $lookup: {
+                from: "tags",
+                localField: "tags",
+                foreignField: "_id",
+                as: "tags"
+              }
+            },
+            {
+              $unwind: "$tags"
+            },
+            {
+              $lookup: {
+                from: "articles",
+                localField: "tags.articles",
+                foreignField: "_id",
+                as: "tags.articles"
+              }
+            }
+          ];
+          Matters.aggregate(queryMatters, (err, result) => {
+            if (err) return console.error("Error Matters query");
+            socket.emit("matter", result, false);
+          });
+        }
+      }
     });
   });
 }
