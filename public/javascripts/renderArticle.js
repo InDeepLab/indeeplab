@@ -35,8 +35,12 @@ $(function() {
 
     _tag.html(`<span class="icon-price-tag"></span> Tags:`);
 
-    for (var tag of tags) {
-      _tag.append(`<a href="#" class="text-muted">${tag.name}</a>,`);
+    for (var i = 0; i < tags.length; i++) {
+      if (!(i == tags.length - 1)) {
+        _tag.append(`<a href="#" class="text-muted">${tags[i].name}</a>, `);
+      } else {
+        _tag.append(`<a href="#" class="text-muted">${tags[i].name}</a>`);
+      }
     }
 
     if (article.reference.content && article.reference.cite) {
@@ -51,19 +55,6 @@ $(function() {
       });
     }
   });
-
-  /*var katex_element = $(".katex");
-            console.log(katex_element)
-            var title = katex_element[0].title;
-            title = String(title)
-
-            for (var i = 0; i < katex_element.length; i++) {
-                var title = katex_element[i].title;
-                console.log(title)
-                katex.render(title, katex_element[i]);
-            }*/
-
-  //katex.render(title, katex_element[0]);
 
   function formatDate(date) {
     var monthNames = [

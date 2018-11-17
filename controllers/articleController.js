@@ -3,6 +3,7 @@
 var Article = require("../models/article");
 var Tags = require("../models/tags");
 var Author = require("../models/author");
+var Articles = require("../models/article");
 const mongoose = require("mongoose");
 
 //GET /articulo/nuevo
@@ -105,7 +106,7 @@ function guardarArticulo(request, response) {
   } else {
     name = body.states;
   }
-
+  console.log("name : " + name);
   /**
    * Expresion regular de la consulta que permite traer el _id de los tags
    */
@@ -117,7 +118,8 @@ function guardarArticulo(request, response) {
    */
   query
     .then(function(doc) {
-      let tags = [];
+      var tags = [];
+      console.log("Docs : ", doc);
       //Crear un Array con los modelos (Tags)
       if (body.states instanceof Array) {
         for (var xx of doc) {
@@ -128,6 +130,7 @@ function guardarArticulo(request, response) {
       }
 
       data.tags = tags;
+      console.log("Tags : ", tags);
       /**
        * Se creó el documento donde se enlazan el articulos con los Tags
        */
@@ -151,6 +154,7 @@ function guardarArticulo(request, response) {
          */
         for (var tag of tags) {
           tag.articles.push(mongoose.Types.ObjectId(obj._id));
+          console.log("tags : ", tag);
           tag.save(err => {
             if (err) return handleError(err);
             console.log("Tags Updates");
@@ -218,54 +222,58 @@ function getArticleById(request, response) {
   var id = request.params.id;
   var objId = id.split("-").pop();
 
+  if (objId.length != 24) {
+    return response.redirect("/");
+  }
+
   render(request, response);
 
-  request.io.once("connection", socket => {
-    /**
-     * En esta query traemos el articulo cuyo _id se ingreso en la URL
-     */
-    var query = [
-      {
-        $addFields: {
-          tags: {
-            $ifNull: ["$tags", []]
-          }
-        }
-      },
-      {
-        $match: {
-          _id: mongoose.Types.ObjectId(objId)
-        }
-      },
-      {
-        $lookup: {
-          //Join Tags
-          from: "tags",
-          localField: "tags",
-          foreignField: "_id",
-          as: "tags"
-        }
-      },
-      {
-        $lookup: {
-          //Join Author
-          from: "authors",
-          localField: "author",
-          foreignField: "_id",
-          as: "author"
-        }
-      },
-      {
-        $project: {
-          //SELECT: Proyectar columnas
-          "tags.id": false,
-          "tags._id": false,
-          "tags.__v": false,
-          "author.articles": false
+  /**
+   * En esta query traemos el articulo cuyo _id se ingreso en la URL
+   */
+  var query = [
+    {
+      $addFields: {
+        tags: {
+          $ifNull: ["$tags", []]
         }
       }
-    ];
+    },
+    {
+      $match: {
+        _id: mongoose.Types.ObjectId(objId)
+      }
+    },
+    {
+      $lookup: {
+        //Join Tags
+        from: "tags",
+        localField: "tags",
+        foreignField: "_id",
+        as: "tags"
+      }
+    },
+    {
+      $lookup: {
+        //Join Author
+        from: "authors",
+        localField: "author",
+        foreignField: "_id",
+        as: "author"
+      }
+    },
+    {
+      $project: {
+        //SELECT: Proyectar columnas
+        "tags.id": false,
+        "tags._id": false,
+        "tags.__v": false,
+        "author.articles": false
+      }
+    }
+  ];
 
+  request.io.once("connection", socket => {
     Article.aggregate(query).exec((err, articles) => {
       if (err) {
         return console.error("Error findById(): ", err);
@@ -275,19 +283,21 @@ function getArticleById(request, response) {
        * Se envian los resultados mediante socket.io para posteriormente
        * renderizarlos en el lado del cliente
        */
-      socket.emit("article", {
-        title: articles[0].title,
-        author: articles[0].author[0],
-        date: articles[0].date,
-        content: request.md.render(articles[0].content),
-        tags: articles[0].tags,
-        reference: {
-          content: articles[0].reference
-            ? request.md.render(articles[0].reference.content)
-            : undefined,
-          cite: articles[0].reference ? articles[0].reference.cite : undefined
-        }
-      });
+      if (articles.length > 0) {
+        socket.emit("article", {
+          title: articles[0].title,
+          author: articles[0].author[0],
+          date: articles[0].date,
+          content: request.md.render(articles[0].content),
+          tags: articles[0].tags,
+          reference: {
+            content: articles[0].reference
+              ? request.md.render(articles[0].reference.content)
+              : undefined,
+            cite: articles[0].reference ? articles[0].reference.cite : undefined
+          }
+        });
+      }
     });
   });
 }
@@ -303,9 +313,86 @@ function render(request, response) {
   });
 }
 
+var totalArticles, //Numero de Articulos
+  pageSize, //Longitud de cada pagina
+  pageCount, //TotalArticles / pageSize + 1;
+  currentPage, //Pagina Actual
+  articles = undefined, //Articulos a renderizar
+  result, //Articulos a renderizar
+  articlesArrays = [], //Articulos divididos en paginas
+  articlesList = []; //Articulos arenderizar
+
+function getAllArticles(request, response) {
+  /**
+   * Renderizar el template index.html y con el componente
+   * de search.html
+   */
+  response.render("index", {
+    pageRoutes: ["layout/home"],
+    title: "InDeepLab | Blog de divulgación Cientifica",
+    scriptJS: ["/socket.io/socket.io.js", "/javascripts/home.js"],
+    session: request.session
+  });
+
+  var queryArticle = [
+    {
+      $lookup: {
+        from: "authors",
+        localField: "author",
+        foreignField: "_id",
+        as: "author"
+      }
+    },
+    {
+      $sort: {
+        date: -1
+      }
+    }
+  ];
+  request.io.once("connection", socket => {
+    if (articles === undefined) {
+      /**
+       * Hacer una consulta de los ultimos 20 registros de articulos
+       * y enviarlos mediante socket.io para posteriormente renderizarlos
+       */
+      Articles.aggregate(queryArticle, (err, docs) => {
+        if (err) return console.error("Error: ", err);
+        articles = docs;
+        result = docs;
+        totalArticles = docs.length;
+        pageSize = 2;
+        pageCount = parseInt(totalArticles / pageSize + 1);
+        currentPage = parseInt(request.query.page);
+        var tmp = undefined;
+        while (articles.length > 0) {
+          tmp = articles.splice(0, pageSize);
+          articlesArrays.push(tmp);
+        }
+        articlesList = articlesArrays[currentPage - 1];
+        socket.emit("articles", articlesArrays[currentPage - 1]);
+        socket.emit("pagination", {
+          pageCount: pageCount,
+          currentPage: currentPage
+        });
+      });
+    } else {
+      pageSize = 2;
+      pageCount = parseInt(totalArticles / pageSize + 1);
+      currentPage = parseInt(request.query.page);
+      articlesList = articlesArrays[currentPage - 1];
+      socket.emit("articles", articlesArrays[currentPage - 1]);
+      socket.emit("pagination", {
+        pageCount: pageCount,
+        currentPage: currentPage
+      });
+    }
+  });
+}
+
 module.exports = {
   crearArticulo,
   guardarArticulo,
   search,
-  getArticleById
+  getArticleById,
+  getAllArticles
 };

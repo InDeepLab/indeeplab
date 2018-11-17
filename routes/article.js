@@ -27,6 +27,13 @@ router.post("/nuevo", isAuth, articuloController.guardarArticulo);
 router.get("/search", articuloController.search);
 
 /**
+ * @route: /articulo/page/?page=1
+ * @method: GET
+ * @description: RENDERIZAR TODOS LOS ARTICULOS ORDENADOS POR FECHA
+ */
+router.get("/page", articuloController.getAllArticles);
+
+/**
  * @route: /articulo/:id
  * @method: GET
  * @description: RENDERIZAR UN ARTICULO POR EL ID
