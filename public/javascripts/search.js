@@ -29,8 +29,8 @@ $(function() {
       url += "-" + article._id;
       template += `
           <a href="/articulo/${url}">
-              <div class="card">
-                <img src="${article.img}">
+              <div class="card" style="width: 350px;">
+                <img class="card-img-top" src="${article.img}">
                 <h4>${article.title}</h4>
                 <span class="badge align-content-center badge-dark" style="margin-left: 2em;">
                   <span class="icon-newspaper"></span> ${article.type}
@@ -42,8 +42,6 @@ $(function() {
                 <a href="/articulo/${url}" class="blue-button"><span class="icon-plus"></span> Leer Mas</a>
               </div>
           </a>
-
-        
         `;
       html += template;
       template = "";

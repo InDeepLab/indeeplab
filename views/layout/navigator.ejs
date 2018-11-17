@@ -6,45 +6,43 @@
       </a>
 
       <div class="col-8 d-none d-lg-block d-lg-none" style="color: #fff;">
-        <a href="#" class="icon-tag">
+        <a href="/matter/search?search=Programacion" class="icon-tag">
           <span class="icon-terminal"></span> Programación</a
         >
 
         <span class="icon-flickr"></span>
-        <a href="#" class="icon-tag"
-          >∭
-          <!-- <span class="icon-omega"></span>
-          -->Calculo</a
+        <a href="/matter/search?search=Calculo%20Integral" class="icon-tag"
+          >∭ Calculo</a
         >
 
         <span class="icon-flickr"></span>
-        <a href="#" class="icon-tag">
+        <a href="/matter/search?search=Algebra%20Lineal" class="icon-tag">
           <span class="icon-sort-amount-asc"></span> Algebra Lineal</a
         >
 
         <span class="icon-flickr"></span>
-        <a href="#" class="icon-tag">
+        <a href="/matter/search?search=Matematica%20Discreta" class="icon-tag">
           <span class="icon-clear-formatting"></span> Matemática Discreta</a
         >
 
         <span class="icon-flickr"></span>
-        <a href="#" class="icon-tag">
+        <a href="/matter/search?search=Estadistica" class="icon-tag">
           <span class="icon-stats-dots"></span> Estadistica</a
         >
         <br />
         <!-- SALTO DE LINEA -->
 
-        <a href="/matter/Deep%20Learning" class="icon-tag">
+        <a href="/matter/search?search=Deep%20Learning" class="icon-tag">
           <span class="icon-share2"></span> Deep Learning</a
         >
 
         <span class="icon-flickr"></span>
-        <a href="#" class="icon-tag">
+        <a href="/matter/search?search=Data%2Science" class="icon-tag">
           <span class="icon-stats-bars"></span> Data Science</a
         >
 
         <span class="icon-flickr"></span>
-        <a href="/matter/Machine%20Learning" class="icon-tag">
+        <a href="/matter/search?search=Machine%20Learning" class="icon-tag">
           <span class="icon-stack"></span> Machine learning</a
         >
 
@@ -54,7 +52,7 @@
         >
 
         <span class="icon-flickr"></span>
-        <a href="#" class="icon-tag">
+        <a href="/matter/search?search=Data%20Mining" class="icon-tag">
           <span class="icon-hammer"></span> Data Mining</a
         >
       </div>
@@ -81,13 +79,17 @@
             <span class="icon-home"></span> Home
           </a>
         </li>
-        <li class="nav-item nav-blog">
-          <a class="nav-link" href="/articulo" style="color: #fff;"> Blog </a>
-        </li>
+
+        <%if (session.author) { %>
 
         <li class="nav-item nav-blog">
           <a class="nav-link" href="/matter/create" style="color: #fff;"
             >Crear Materia</a
+          >
+        </li>
+        <li class="nav-item nav-blog">
+          <a class="nav-link" href="/tag/create" style="color: #fff;"
+            >Crear tag</a
           >
         </li>
 
@@ -96,15 +98,76 @@
             >Crear Articulo</a
           >
         </li>
+        <% } %>
 
         <li class="nav-item nav-blog">
-          <a class="nav-link" href="#" style="color: #fff;">Log In</a>
+          <a
+            class="nav-link"
+            href="/matter/search?search=Machine%20Learning"
+            style="color: #fff;"
+          >
+            Machine Learning
+          </a>
         </li>
 
         <li class="nav-item nav-blog">
-          <a class="nav-link" href="#" style="color: #fff;">Sign Up</a>
+          <a
+            class="nav-link"
+            href="/matter/search?search=Deep%20Learning"
+            style="color: #fff;"
+          >
+            Deep Learning
+          </a>
+        </li>
+
+        <li class="nav-item nav-blog">
+          <a class="nav-link" href="/info/contact" style="color: #fff;">
+            Contacto
+          </a>
         </li>
       </ul>
+
+      <%if (session.author) { %>
+      <div
+        class="collapse navbar-collapse justify-content-end"
+        style="margin-right: 50px;"
+      >
+        <a class="nav-link" style="color: #fff;padding: 0px!important;">
+          <span
+            class="badge badge-warning"
+            style="padding: 13px;border-radius: 0px;"
+          >
+            <span class="icon-users"></span><%= session.author.user %>
+          </span>
+        </a>
+        <a
+          class="nav-link"
+          href="/author/signout"
+          style="color: #fff;padding: 0px!important;"
+        >
+          <span
+            class="badge badge-danger"
+            style="padding: 13px;border-radius: 0px;"
+          >
+            Salir<span class="icon-user-minus"></span>
+          </span>
+        </a>
+      </div>
+
+      <% } else{ %>
+        <div
+        class="collapse navbar-collapse justify-content-end"
+        style="margin-right: 50px;"
+      >
+        <a class="nav-link" href="/author/login" style="color: #fff;padding: 0px!important;">
+          <span
+            class="badge badge-warning"
+            style="padding: 13px;border-radius: 0px;"
+          >
+            <span class="icon-users"></span>LogIn
+        </a>
+      </div>
+      <% } %>
 
       <form
         class="navbar-form"
@@ -120,7 +183,6 @@
             name="search"
             placeholder="Search"
             id="search"
-            value="Generalized Linear Models"
           />
 
           <button type="reset">
