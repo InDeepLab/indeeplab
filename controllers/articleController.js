@@ -194,7 +194,7 @@ function search(request, response) {
    * Los resultados de la consultas se envian al client
    * mediante socket.io para posteriormente ser renderizadas
    */
-  request.io.on("connection", socket => {
+  request.io.once("connection", socket => {
     Article.aggregate(query, (err, articles) => {
       socket.emit("searchText", request.query);
       socket.emit("articles", articles);
@@ -215,6 +215,8 @@ function search(request, response) {
 
 //GET: /articulo/:id
 function getArticleById(request, response) {
+  console.log("Back");
+  render(request, response);
   /**
    * request.params trae los parametros que se ingresaron en la peticion GET
    * /articulo/:id y ahí podemos obtener el _id para poder hacer la consulta
@@ -225,8 +227,6 @@ function getArticleById(request, response) {
   if (objId.length != 24) {
     return response.redirect("/");
   }
-
-  render(request, response);
 
   /**
    * En esta query traemos el articulo cuyo _id se ingreso en la URL
@@ -274,10 +274,11 @@ function getArticleById(request, response) {
   ];
 
   request.io.once("connection", socket => {
-    Article.aggregate(query).exec((err, articles) => {
+    Article.aggregate(query, (err, articles) => {
       if (err) {
         return console.error("Error findById(): ", err);
       }
+      console.log(articles);
 
       /**
        * Se envian los resultados mediante socket.io para posteriormente
