@@ -3,6 +3,12 @@ $(function() {
 
   socket.on("connect", () => {
     console.log(socket.connected); // true
+    if (!window.location.hash) {
+      window.location.href = window.location.href + "#loaded";
+      window.location.reload();
+    } else {
+      window.location.hash = "";
+    }
   });
   socket.on("searchText", title => {
     if (title === false) {

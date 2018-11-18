@@ -5,6 +5,12 @@ $(function() {
 
   socket.on("connect", () => {
     console.log(socket.connected); // true
+    if (!window.location.hash) {
+      window.location.href = window.location.href + "#loaded";
+      window.location.reload();
+    } else {
+      window.location.hash = "";
+    }
   });
 
   socket.on("matter", (result, flag) => {
@@ -43,7 +49,7 @@ $(function() {
                   <p class="card-text mb-auto">
                     ${description}...
                   </p>
-                  <a href="/tag/${tag.tags.name}">Ir a</a>
+                  <a href="/tag/search/?name=${tag.tags.name}">Ir a</a>
                 </div>
                 <img
                   class="card-img-right flex-auto d-none d-md-block"
