@@ -11,6 +11,8 @@ const http = require("http");
 const socket = require("socket.io");
 const mongoose = require("mongoose");
 
+const setting = require("./setting");
+
 var md = require("markdown-it")(),
   mk = require("markdown-it-katex");
 
@@ -28,16 +30,14 @@ var app = express();
 const server = http.createServer(app);
 const io = socket.listen(server);
 
-var port = process.env.PORT || 3000;
-
-app.set("port", port);
+app.set("port", setting.port);
 
 mongoose
-  .connect("mongodb://localhost:27017/indeeplab")
+  .connect(setting.mongodb)
   .then(result => {
     console.log("Conexión EXITOSA con MongoDB");
-    server.listen(port, function() {
-      console.log("Servidor corriendo en http://localhost:" + port);
+    server.listen(setting.port, () => {
+      console.log("Servidor corriendo en http://localhost:" + setting.port);
     });
   })
   .catch(err => {
@@ -68,6 +68,7 @@ app.use(
 
 app.use((request, response, next) => {
   request.io = io;
+  console.log(request.url);
   next();
 });
 
