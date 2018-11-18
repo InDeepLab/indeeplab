@@ -60,3 +60,7 @@ typings/
 
 # next.js build output
 .next
+
+#txt
+Queries.txt
+TODO.txt
