@@ -29,7 +29,7 @@ function createTag(request, response) {
     }
   };
 
-  request.io.on("connection", socket => {
+  request.io.once("connection", socket => {
     /**
      * Renderizar las materias en el formulario de registrar tags
      */
@@ -82,6 +82,50 @@ function registerTag(request, response) {
 
 function searchTag(request, response) {
   //TODO: RENDERIZAR TODOS LOS ARTICULOS DE UN TAG SELECCIONADO
+
+  /**
+   * Renderizar el template index.html y con el componente
+   * de search.html
+   */
+  response.render("index", {
+    title: "Articulo",
+    scriptJS: ["/javascripts/search.js", "/socket.io/socket.io.js"],
+    pageRoutes: ["layout/search"],
+    session: request.session
+  });
+
+  var name = request.query.name;
+  console.log(name);
+  var queryArticles = [
+    {
+      $match: {
+        name: name
+      }
+    },
+    {
+      $lookup: {
+        from: "articles",
+        localField: "articles",
+        foreignField: "_id",
+        as: "articles"
+      }
+    }
+  ];
+
+  request.io.once("connection", socket => {
+    Tag.aggregate(queryArticles, (err, docs) => {
+      if (err) return console.error("Error searchTag() : ", err);
+      console.log(docs.length > 0);
+      if (docs.length > 0) {
+        socket.emit("searchText", false);
+        socket.emit("articles", docs[0].articles);
+      } else {
+        socket.emit("searchText", {
+          search: "Not Found"
+        });
+      }
+    });
+  });
 }
 
 module.exports = {
